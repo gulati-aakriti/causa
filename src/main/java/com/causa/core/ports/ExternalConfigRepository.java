@@ -19,16 +19,16 @@ public interface ExternalConfigRepository {
     /** Returns all configs for the given category. */
     List<ExternalConfig> findByCategory(PlatformCategory category);
 
-    /** Returns the config for a specific platform within a category, or empty if not found. */
-    Optional<ExternalConfig> findByCategoryAndPlatform(PlatformCategory category, String platform);
+    /** Returns the config for a specific platform and name, or empty if not found. */
+    Optional<ExternalConfig> findByPlatformAndName(String platform, String name);
 
     /** Persists a new or updated config. */
     ExternalConfig save(ExternalConfig externalConfig);
 
     /**
-     * Deletes the config for the given category and platform.
+     * Deletes the config for the given platform and name.
      *
      * @return {@code true} if a row was deleted, {@code false} if none existed
      */
-    boolean deleteByCategoryAndPlatform(PlatformCategory category, String platform);
+    boolean deleteByPlatformAndName(String platform, String name);
 }

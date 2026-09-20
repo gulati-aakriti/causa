@@ -1,6 +1,5 @@
 package com.causa.infrastructure.persistence.entity;
 
-import com.causa.common.constants.ConfigConstants.LlmAuthType;
 import com.causa.common.constants.ConfigConstants.LlmProvider;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.*;
@@ -35,23 +34,18 @@ public class LlmConfigEntity extends BaseEntity {
     @Column(nullable = false, length = 24)
     private String id;
 
-    /** Human-readable display name (e.g. {@code vertex-prod}). */
-    @Column(nullable = false, length = 128)
-    private String name;
-
     /** OPENAI | ANTHROPIC | AZURE_OPENAI | WATSONX. */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 64)
     private LlmProvider provider;
 
-    /** Model identifier (e.g. {@code gpt-4o}). */
-    @Column(nullable = false, length = 128)
-    private String model;
+    /** LLM API endpoint URL. NOT NULL. */
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String url;
 
-    /** API_KEY | VERTEX_AI | CUSTOM_HEADERS — determines required AuthConfig fields. */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 32)
-    private LlmAuthType authType;
+    /** Available model identifiers for this provider (e.g. {@code {gpt-4o, gpt-4o-mini}}). NOT NULL. */
+    @Column(nullable = false, columnDefinition = "TEXT[]")
+    private String[] models;
 
     /** Sampling temperature. Nullable — falls back to model default. */
     @Column(precision = 4, scale = 2)
@@ -67,7 +61,7 @@ public class LlmConfigEntity extends BaseEntity {
 
     /** Whether this provider is used by the analysis engine. At most one row is true. */
     @Column(nullable = false)
-    private Boolean isActive = false;
+    private Boolean isActive = true;
 
     /** Credentials JSONB. Sensitive fields AES-256-GCM encrypted. NOT NULL. */
     @JdbcTypeCode(SqlTypes.JSON)
@@ -86,17 +80,14 @@ public class LlmConfigEntity extends BaseEntity {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
     public LlmProvider getProvider() { return provider; }
     public void setProvider(LlmProvider provider) { this.provider = provider; }
 
-    public String getModel() { return model; }
-    public void setModel(String model) { this.model = model; }
+    public String getUrl() { return url; }
+    public void setUrl(String url) { this.url = url; }
 
-    public LlmAuthType getAuthType() { return authType; }
-    public void setAuthType(LlmAuthType authType) { this.authType = authType; }
+    public String[] getModels() { return models; }
+    public void setModels(String[] models) { this.models = models; }
 
     public BigDecimal getTemperature() { return temperature; }
     public void setTemperature(BigDecimal temperature) { this.temperature = temperature; }
