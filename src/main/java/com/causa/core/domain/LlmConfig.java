@@ -1,10 +1,10 @@
 package com.causa.core.domain;
 
-import com.causa.common.constants.ConfigConstants.LlmAuthType;
 import com.causa.common.constants.ConfigConstants.LlmProvider;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,10 +19,9 @@ import java.util.Objects;
 public final class LlmConfig {
 
     private final String id;
-    private final String name;
     private final LlmProvider provider;
-    private final String model;
-    private final LlmAuthType authType;
+    private final String url;
+    private final List<String> models;
     private final BigDecimal temperature;
     private final Integer maxTokens;
     private final Integer timeoutMs;
@@ -36,10 +35,9 @@ public final class LlmConfig {
 
     private LlmConfig(Builder builder) {
         this.id               = Objects.requireNonNull(builder.id, "id cannot be null");
-        this.name             = Objects.requireNonNull(builder.name, "name cannot be null");
         this.provider         = Objects.requireNonNull(builder.provider, "provider cannot be null");
-        this.model            = Objects.requireNonNull(builder.model, "model cannot be null");
-        this.authType         = Objects.requireNonNull(builder.authType, "authType cannot be null");
+        this.url              = Objects.requireNonNull(builder.url, "url cannot be null");
+        this.models           = Objects.requireNonNull(builder.models, "models cannot be null");
         this.temperature      = builder.temperature;
         this.maxTokens        = builder.maxTokens;
         this.timeoutMs        = builder.timeoutMs;
@@ -51,10 +49,9 @@ public final class LlmConfig {
     }
 
     public String getId()                            { return id; }
-    public String getName()                          { return name; }
     public LlmProvider getProvider()                 { return provider; }
-    public String getModel()                         { return model; }
-    public LlmAuthType getAuthType()                 { return authType; }
+    public String getUrl()                           { return url; }
+    public List<String> getModels()                  { return models; }
     public BigDecimal getTemperature()               { return temperature; }
     public Integer getMaxTokens()                    { return maxTokens; }
     public Integer getTimeoutMs()                    { return timeoutMs; }
@@ -68,14 +65,13 @@ public final class LlmConfig {
 
     public static final class Builder {
         private String id;
-        private String name;
         private LlmProvider provider;
-        private String model;
-        private LlmAuthType authType;
+        private String url;
+        private List<String> models;
         private BigDecimal temperature;
         private Integer maxTokens;
         private Integer timeoutMs;
-        private boolean isActive = false;
+        private boolean isActive = true;
         private AuthConfig authConfig;
         private Map<String, Object> additionalConfig;
         private OffsetDateTime createdAt;
@@ -84,10 +80,9 @@ public final class LlmConfig {
         private Builder() {}
 
         public Builder id(String v)                            { this.id = v; return this; }
-        public Builder name(String v)                          { this.name = v; return this; }
         public Builder provider(LlmProvider v)                 { this.provider = v; return this; }
-        public Builder model(String v)                         { this.model = v; return this; }
-        public Builder authType(LlmAuthType v)                 { this.authType = v; return this; }
+        public Builder url(String v)                           { this.url = v; return this; }
+        public Builder models(List<String> v)                  { this.models = v; return this; }
         public Builder temperature(BigDecimal v)               { this.temperature = v; return this; }
         public Builder maxTokens(Integer v)                    { this.maxTokens = v; return this; }
         public Builder timeoutMs(Integer v)                    { this.timeoutMs = v; return this; }
@@ -113,7 +108,6 @@ public final class LlmConfig {
     @Override
     public String toString() {
         return "LlmConfig{id='" + id + "', provider=" + provider
-            + ", model='" + model + "', authType=" + authType
-            + ", isActive=" + isActive + "}";
+            + ", url='" + url + "', isActive=" + isActive + "}";
     }
 }

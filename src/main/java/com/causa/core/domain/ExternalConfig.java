@@ -1,6 +1,5 @@
 package com.causa.core.domain;
 
-import com.causa.common.constants.ConfigConstants.ExternalAuthType;
 import com.causa.common.constants.ConfigConstants.PlatformCategory;
 
 import java.time.OffsetDateTime;
@@ -21,8 +20,8 @@ public final class ExternalConfig {
     private final PlatformCategory category;
     /** Plain String — holds values from {@code ObservabilityPlatform} (DATADOG / INSTANA) or {@code IntegrationPlatform} (SLACK / JIRA / GITHUB) depending on category. */
     private final String platform;
+    private final String name;
     private final String url;
-    private final ExternalAuthType authType;
     private final boolean isActive;
     /** Sensitive fields encrypted on write, decrypted+masked on read by the service layer. */
     private final AuthConfig authConfig;
@@ -35,8 +34,8 @@ public final class ExternalConfig {
         this.id               = Objects.requireNonNull(builder.id, "id cannot be null");
         this.category         = Objects.requireNonNull(builder.category, "category cannot be null");
         this.platform         = Objects.requireNonNull(builder.platform, "platform cannot be null");
+        this.name             = Objects.requireNonNull(builder.name, "name cannot be null");
         this.url              = builder.url;
-        this.authType         = Objects.requireNonNull(builder.authType, "authType cannot be null");
         this.isActive         = builder.isActive;
         this.authConfig       = Objects.requireNonNull(builder.authConfig, "authConfig cannot be null");
         this.additionalConfig = builder.additionalConfig != null ? builder.additionalConfig : Map.of();
@@ -47,8 +46,8 @@ public final class ExternalConfig {
     public String getId()                            { return id; }
     public PlatformCategory getCategory()            { return category; }
     public String getPlatform()                      { return platform; }
+    public String getName()                          { return name; }
     public String getUrl()                           { return url; }
-    public ExternalAuthType getAuthType()            { return authType; }
     public boolean isActive()                        { return isActive; }
     public AuthConfig getAuthConfig()                { return authConfig; }
     public Map<String, Object> getAdditionalConfig() { return additionalConfig; }
@@ -61,9 +60,9 @@ public final class ExternalConfig {
         private String id;
         private PlatformCategory category;
         private String platform;
+        private String name;
         private String url;
-        private ExternalAuthType authType;
-        private boolean isActive = false;
+        private boolean isActive = true;
         private AuthConfig authConfig;
         private Map<String, Object> additionalConfig;
         private OffsetDateTime createdAt;
@@ -74,8 +73,8 @@ public final class ExternalConfig {
         public Builder id(String v)                            { this.id = v; return this; }
         public Builder category(PlatformCategory v)            { this.category = v; return this; }
         public Builder platform(String v)                      { this.platform = v; return this; }
+        public Builder name(String v)                          { this.name = v; return this; }
         public Builder url(String v)                           { this.url = v; return this; }
-        public Builder authType(ExternalAuthType v)            { this.authType = v; return this; }
         public Builder isActive(boolean v)                     { this.isActive = v; return this; }
         public Builder authConfig(AuthConfig v)                { this.authConfig = v; return this; }
         public Builder additionalConfig(Map<String, Object> v) { this.additionalConfig = v; return this; }
@@ -98,7 +97,7 @@ public final class ExternalConfig {
     @Override
     public String toString() {
         return "ExternalConfig{id='" + id + "', category=" + category
-            + ", platform='" + platform + "', authType=" + authType
-            + ", isActive=" + isActive + "}";
+            + ", platform='" + platform + "', name='" + name
+            + "', isActive=" + isActive + "}";
     }
 }
