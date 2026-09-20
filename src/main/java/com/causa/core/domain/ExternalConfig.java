@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * External Config Domain Model — maps to the {@code external_configs} table.
  *
- * <p>Covers Observability (DATADOG / INSTANA / OTHER) and Integration
+ * <p>Covers Observability (DATADOG / INSTANA) and Integration
  * (SLACK / JIRA / GITHUB) configs discriminated by {@code category}.
  *
  * @since 0.0.3
@@ -19,7 +19,7 @@ public final class ExternalConfig {
 
     private final String id;
     private final PlatformCategory category;
-    /** Plain String — holds values from {@code ObservabilityPlatform} or {@code IntegrationPlatform} depending on category. */
+    /** Plain String — holds values from {@code ObservabilityPlatform} (DATADOG / INSTANA) or {@code IntegrationPlatform} (SLACK / JIRA / GITHUB) depending on category. */
     private final String platform;
     private final String url;
     private final ExternalAuthType authType;
